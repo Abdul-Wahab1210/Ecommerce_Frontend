@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* ==========================================
+   LIGHT THEME - Clean & Professional
+   ========================================== */
+:root {
+  /* Base colors - Clean and minimal */
+  --background: 161 81% 30%; /* Almost white background */
+  --foreground: 220 13% 13%; /* Almost black text */
+
+  /* Cards - Subtle elevation */
+  --card: 0 0% 100%; /* Pure white */
+  --card-foreground: 220 13% 13%;
+
+  /* Borders - Subtle and clean */
+  --border: 220 13% 91%; /* Light gray */
+  --input: 220 13% 96%; /* Very light gray */
+
+  /* Muted - For disabled/secondary text */
+  --muted: 220 13% 96%; /* Light background for muted areas */
+  --muted-foreground: 220 8% 48%; /* Medium gray text */
+
+  /* Brand colors - Vibrant & Modern */
+  --primary: 217 100% 50%; /* Bright Blue */
+  --primary-hover: 217 100% 44%; /* Darker blue on hover */
+  --primary-foreground: 0 0% 100%; /* White text */
+
+  --secondary: 220 13% 91%; /* Light gray background */
+  --secondary-foreground: 220 13% 13%; /* Dark text */
+
+  --accent: 262 100% 50%; /* Vibrant Purple - Eye-catching */
+  --accent-foreground: 0 0% 100%; /* White text */
+
+  /* Status colors - Clear feedback */
+  --success: 142 76% 36%; /* Green */
+  --warning: 38 92% 50%; /* Orange */
+  --danger: 0 84% 60%; /* Red */
+
+  /* Navbar - Sleek design */
+  --navbar: 10 0% 100%; /* White navbar */
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(217 100% 50%),
+    hsl(262 100% 50%)
+  );
+  --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 99%));
+
+  --radius: 0.75rem;
+}
+
+/* ==========================================
+   DARK THEME - Elegant & Modern
+   ========================================== */
+.dark {
+  /* Base colors - Rich and comfortable */
+  --background: 217 33% 12%; /* Deep navy-ish dark */
+  --foreground: 0 0% 98%; /* Almost white text */
+
+  /* Cards - Elevated with contrast */
+  --card: 217 33% 18%; /* Slightly lighter than background */
+  --card-foreground: 0 0% 98%;
+
+  /* Borders - Subtle visibility */
+  --border: 217 33% 25%; /* Medium dark gray */
+  --input: 217 33% 20%; /* Darker input fields */
+
+  /* Muted - Secondary information */
+  --muted: 217 33% 20%; /* Dark background */
+  --muted-foreground: 0 0% 65%; /* Lighter gray text */
+
+  /* Brand colors - Vibrant in dark mode */
+  --primary: 217 100% 60%; /* Bright cyan-blue */
+  --primary-hover: 217 100% 70%; /* Lighter on hover */
+  --primary-foreground: 217 33% 12%; /* Dark text on light button */
+
+  --secondary: 217 33% 25%; /* Dark gray */
+  --secondary-foreground: 0 0% 98%; /* Light text */
+
+  --accent: 262 100% 60%; /* Bright purple */
+  --accent-foreground: 217 33% 12%; /* Dark text */
+
+  /* Muted colors */
+  --muted-foreground: 0 0% 65%;
+
+  /* Status colors - Bright in dark mode */
+  --success: 142 71% 45%; /* Lighter green */
+  --warning: 38 92% 60%; /* Lighter orange */
+  --danger: 0 84% 65%; /* Lighter red */
+
+  /* Navbar - Dark elegant */
+  --navbar: 217 33% 15%; /* Slightly lighter than background */
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(217 100% 60%),
+    hsl(262 100% 60%)
+  );
+  --gradient-card: linear-gradient(180deg, hsl(217 33% 18%), hsl(217 33% 12%));
+}
+
+/* Smooth theme transition */
+html {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
