@@ -69,9 +69,9 @@ export default function SellerOrdersPage() {
       ) : orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-6 hover:shadow-lg p-4 bg-white border rounded-lg transition">
           {orders.map((order) => (
-            <div key={order._id} className="bg-white p-4 rounded shadow">
+            <div key={order._id} className="bg-white p-4 rounded ">
               <p>
                 <span className="font-semibold">Order ID:</span> {order._id}
               </p>
@@ -88,7 +88,7 @@ export default function SellerOrdersPage() {
                 {order.products.map((product, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-4 justify-between border-b pb-2"
+                    className="flex items-center gap-4 justify-between pb-2"
                   >
                     <div>
                       <p>

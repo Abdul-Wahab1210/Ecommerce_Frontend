@@ -1,46 +1,36 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import axiosPrivate from "../api/axiosPrivate";
+import SellerProductCard from "../components/SellerProductCard";
 
-export default function MyProductsPage() {
-  const { user, api, loadingUser } = useContext(AuthContext);
+const MyProductsPage = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  // Wait for auth context to load
+  const fetchProducts = async () => {
+    const res = await axiosPrivate.get("/products/dashboard");
+    setProducts(res.data);
+  };
+
   useEffect(() => {
-    if (!loadingUser && user && user.role === "seller") {
-      api
-        .get("/products/dashboard")
-        .then((res) => setProducts(res.data))
-        .catch((err) => console.error(err))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false); // prevent infinite loading
-    }
-  }, [loadingUser, user]);
-
-  if (loadingUser) return <p>Loading...</p>;
-
-  if (!user || user.role !== "seller") return <Navigate to="/" replace />;
+    fetchProducts();
+  }, []);
 
   return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-4xl font-bold mb-6">My Products</h1>
-      {loading ? (
-        <p>Loading products...</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-gray-100 pt-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">My Products</h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <div key={product._id} className="bg-white p-4 rounded shadow">
-              <h2 className="font-semibold">{product.name}</h2>
-              <p>{product.description}</p>
-              <p>${product.price}</p>
-            </div>
+            <SellerProductCard
+              key={product._id}
+              product={product}
+              refresh={fetchProducts}
+            />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
-}
+};
+
+export default MyProductsPage;
