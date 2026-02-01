@@ -17,14 +17,13 @@ const EditProductModal = ({ product, isOpen, onClose, onUpdated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await axiosPrivate.put(`/products/${product._id}`, formData);
     onUpdated();
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} className="max-w-4xl w-full">
       <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -48,13 +47,13 @@ const EditProductModal = ({ product, isOpen, onClose, onUpdated }) => {
         </div>
 
         {/* Price and Stock in a row */}
-        <div className="md:flex gap-3 space-y-4">
+        <div className="md:flex gap-3">
           <input
             name="price"
             type="number"
             value={formData.price}
             onChange={handleChange}
-            className="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
             placeholder="Price"
           />
 
@@ -63,7 +62,7 @@ const EditProductModal = ({ product, isOpen, onClose, onUpdated }) => {
             type="number"
             value={formData.stock}
             onChange={handleChange}
-            className="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
             placeholder="Stock"
           />
         </div>

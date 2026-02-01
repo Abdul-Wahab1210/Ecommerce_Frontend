@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { FaTrash, FaEdit, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import EditProductModal from "./EditProductModal";
 import axiosPrivate from "../api/axiosPrivate";
+import ImageCarousel from "./ImageCarousel"; // <-- new carousel component
 
 const SellerProductCard = ({ product, refresh }) => {
-  const [index, setIndex] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
-
-  const next = () => setIndex((prev) => (prev + 1) % product.images.length);
-
-  const prev = () =>
-    setIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
 
   const deleteProduct = async () => {
     const confirmDelete = window.confirm(
@@ -31,32 +26,15 @@ const SellerProductCard = ({ product, refresh }) => {
         : "In stock";
 
   return (
-    <div className=" rounded-xl p-4 relative bg-slate-50 shadow hover:shadow-lg transition">
+    <div className="rounded-xl p-4 relative bg-slate-50 shadow hover:shadow-lg transition">
       {/* Image Carousel */}
-      <div className="relative">
-        <img
-          src={product.images[index]}
-          className="w-full h-48 object-cover rounded-lg"
-        />
-
-        <button
-          onClick={prev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-100 transition"
-        >
-          <FaChevronLeft />
-        </button>
-
-        <button
-          onClick={next}
-          className="absolute right-2 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-100 transition"
-        >
-          <FaChevronRight />
-        </button>
-      </div>
+      <ImageCarousel images={product.images} className="mb-3" />
 
       {/* Product Info */}
-      <h3 className="font-semibold mt-2">{product.name}</h3>
-      <p className="text-sm text-gray-600">{product.description}</p>
+      <h3 className="font-semibold">{product.name}</h3>
+      <p className="text-sm text-gray-600 line-clamp-2">
+        {product.description}
+      </p>
       <p className="mt-1 font-medium">Rs {product.price}</p>
 
       {/* Stock + Actions Row */}
@@ -96,6 +74,7 @@ const SellerProductCard = ({ product, refresh }) => {
         </div>
       </div>
 
+      {/* Edit Modal */}
       <EditProductModal
         product={product}
         isOpen={editOpen}

@@ -7,7 +7,7 @@ export default function LandingPage() {
     <div className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory">
       {/* Hero Section */}
       <motion.section
-        className="snap-start min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-400 to-slate-500 text-white px-4 text-center"
+        className="snap-start min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-slate-400 to-slate-500 text-white px-4 text-center"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false }}
@@ -58,7 +58,7 @@ export default function LandingPage() {
 
       {/* Contact Section */}
       <motion.section
-        className="snap-start py-16 bg-gradient-to-r from-slate-400 to-slate-600 text-gray-900 px-4 text-center"
+        className="snap-start py-16 bg-linear-to-r from-slate-400 to-slate-600 text-gray-900 px-4 text-center"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false }}

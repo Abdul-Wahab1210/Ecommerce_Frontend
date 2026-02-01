@@ -35,7 +35,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-400 to-slate-500 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-400 to-slate-500 px-4">
       <motion.div
         className="bg-white rounded-lg shadow-lg p-10 max-w-md w-full"
         initial={{ opacity: 0, y: 50 }}

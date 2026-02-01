@@ -4,16 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Link, Navigate } from "react-router-dom";
 
 export default function DashboardPage() {
-  const { user, loadingUser } = useContext(AuthContext);
-
-  // Wait until AuthContext finishes loading
-  if (loadingUser) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const { user } = useContext(AuthContext);
 
   // Redirect if not logged in or not a seller
   if (!user || user.role !== "seller") {

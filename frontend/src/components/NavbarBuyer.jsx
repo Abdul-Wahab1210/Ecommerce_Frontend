@@ -10,6 +10,7 @@ export default function NavbarBuyer({
   const links = [
     { name: "Cart", path: "/cart", icon: <ShoppingCart size={16} /> },
     { name: "Orders", path: "/orders" },
+    { name: "Products", path: "/products" },
   ];
 
   return (
