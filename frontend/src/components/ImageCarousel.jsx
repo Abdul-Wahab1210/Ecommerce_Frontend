@@ -6,8 +6,8 @@ export default function ImageCarousel({ images = [], className = "" }) {
 
   if (!images.length) {
     return (
-      <div className="h-48 bg-gray-200 flex items-center justify-center rounded-lg">
-        <span className="text-gray-500">No image</span>
+      <div className="aspect-[4/3] bg-muted flex items-center justify-center rounded-xl">
+        <span className="text-muted-foreground text-sm">No image</span>
       </div>
     );
   }
@@ -16,27 +16,26 @@ export default function ImageCarousel({ images = [], className = "" }) {
   const next = () => setIndex((i) => (i === images.length - 1 ? 0 : i + 1));
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative group ${className}`}>
       <img
         src={images[index]}
         alt="product"
-        className="w-full h-48 object-cover rounded-lg"
+        className="w-full aspect-[4/3] object-cover rounded-xl"
       />
 
       {images.length > 1 && (
         <>
           <button
             onClick={prev}
-            className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/40 text-white p-1 rounded-full hover:bg-black/60"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-background transition-all duration-200 shadow-sm"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={16} />
           </button>
-
           <button
             onClick={next}
-            className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/40 text-white p-1 rounded-full hover:bg-black/60"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-background transition-all duration-200 shadow-sm"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={16} />
           </button>
         </>
       )}

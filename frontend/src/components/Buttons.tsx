@@ -1,7 +1,6 @@
-// src/components/Buttons.tsx
 import type { ReactNode, ButtonHTMLAttributes } from "react";
 
-interface ChildrenProps {
+interface ButtonProps {
   children: ReactNode;
   className?: string;
 }
@@ -10,9 +9,9 @@ export const PrimaryButton = ({
   children,
   className = "",
   ...props
-}: ChildrenProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
+}: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className={`bg-primary text-white px-6 py-2 rounded-lg shadow-medium hover:shadow-large hover:scale-105 transition-transform duration-300 ${className}`}
+    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary-hover shadow-sm hover:shadow-md transition-all duration-300 ${className}`}
     {...props}
   >
     {children}
@@ -23,9 +22,9 @@ export const SecondaryButton = ({
   children,
   className = "",
   ...props
-}: ChildrenProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
+}: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className={`border border-primary text-primary px-6 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors duration-300 ${className}`}
+    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-card-border text-foreground font-medium hover:bg-secondary transition-all duration-300 ${className}`}
     {...props}
   >
     {children}
@@ -36,9 +35,9 @@ export const GradientButton = ({
   children,
   className = "",
   ...props
-}: ChildrenProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
+}: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className={`bg-gradient-primary text-white px-6 py-2 rounded-lg shadow-medium hover:shadow-large hover:scale-105 transition-transform duration-300 ${className}`}
+    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold shadow-sm hover:shadow-md transition-all duration-300 ${className}`}
     {...props}
   >
     {children}
@@ -49,9 +48,9 @@ export const DisabledButton = ({
   children,
   className = "",
   ...props
-}: ChildrenProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
+}: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className={`bg-gray-300 text-gray-500 px-6 py-2 rounded-lg cursor-not-allowed ${className}`}
+    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-muted text-muted-foreground cursor-not-allowed ${className}`}
     disabled
     {...props}
   >

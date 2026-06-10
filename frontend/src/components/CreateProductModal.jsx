@@ -26,7 +26,6 @@ const CreateProductModal = ({ isOpen, onClose, onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields
     if (
       !formData.name ||
       !formData.description ||
@@ -69,70 +68,67 @@ const CreateProductModal = ({ isOpen, onClose, onCreated }) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="max-w-4xl w-full overflow-y-auto "
-    >
-      <h2 className="text-xl font-semibold mb-4">Create New Product</h2>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h2 className="text-xl font-bold text-foreground mb-4">Create New Product</h2>
 
-      {error && <p className="text-red-600 mb-2">{error}</p>}
+      {error && (
+        <div className="mb-4 px-4 py-3 rounded-xl bg-danger-bg text-danger text-sm font-medium">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name and Description */}
-        <div className="flex flex-col gap-3">
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
-            placeholder="Product Name"
-          />
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
+          placeholder="Product Name"
+        />
 
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600 resize-none h-24"
-            placeholder="Description"
-          />
-        </div>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring resize-none h-24 transition-all duration-200"
+          placeholder="Description"
+        />
 
-        {/* Price and Stock in a row */}
-        <div className="md:flex gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <input
             name="price"
             type="number"
             value={formData.price}
             onChange={handleChange}
-            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
             placeholder="Price"
           />
-
           <input
             name="stock"
             type="number"
             value={formData.stock}
             onChange={handleChange}
-            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
             placeholder="Stock"
           />
         </div>
 
-        {/* Category */}
         <input
           name="category"
           value={formData.category}
           onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
           placeholder="Category"
         />
 
-        {/* Images */}
-        <div className="border rounded-lg p-3 flex flex-col gap-2 cursor-pointer hover:bg-slate-50 transition">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <AiOutlinePlus size={20} className="text-slate-600" />
-            <span className="text-slate-600">Add Images ({images.length})</span>
+        <div className="border-2 border-dashed border-card-border rounded-xl p-4 hover:bg-secondary/50 transition-colors cursor-pointer">
+          <label className="flex flex-col items-center gap-2 cursor-pointer">
+            <AiOutlinePlus size={24} className="text-muted-foreground" />
+            <span className="text-sm text-muted-foreground font-medium">
+              {images.length > 0
+                ? `${images.length} image${images.length > 1 ? "s" : ""} selected`
+                : "Add Images"}
+            </span>
             <input
               type="file"
               multiple
@@ -142,11 +138,11 @@ const CreateProductModal = ({ isOpen, onClose, onCreated }) => {
             />
           </label>
           {images.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mt-3">
               {Array.from(images).map((file, idx) => (
                 <span
                   key={idx}
-                  className="bg-slate-100 px-2 py-1 rounded text-sm"
+                  className="bg-secondary text-muted-foreground text-xs px-2.5 py-1 rounded-lg truncate max-w-[140px]"
                 >
                   {file.name}
                 </span>
@@ -157,7 +153,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreated }) => {
 
         <button
           type="submit"
-          className="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-900 transition"
+          className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary-hover shadow-sm transition-all duration-300"
         >
           Create Product
         </button>

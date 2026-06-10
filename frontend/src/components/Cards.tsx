@@ -1,4 +1,3 @@
-// src/components/Cards.tsx
 import type { ReactNode, HTMLAttributes } from "react";
 
 interface ChildrenProps {
@@ -12,7 +11,7 @@ export const ProductCard = ({
   ...props
 }: ChildrenProps & HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={`bg-card rounded-lg shadow-medium p-4 hover:shadow-large hover:scale-105 transform transition-all duration-300 ${className}`}
+    className={`bg-card border border-card-border rounded-2xl p-5 hover:shadow-lg hover:border-primary/20 transition-all duration-300 ${className}`}
     {...props}
   >
     {children}
@@ -25,7 +24,7 @@ export const SellerCard = ({
   ...props
 }: ChildrenProps & HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={`bg-card rounded-lg shadow-small p-4 hover:shadow-medium transition-shadow duration-300 ${className}`}
+    className={`bg-card border border-card-border rounded-xl p-5 hover:shadow-md transition-all duration-300 ${className}`}
     {...props}
   >
     {children}
@@ -38,7 +37,7 @@ export const OrderCard = ({
   ...props
 }: ChildrenProps & HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={`bg-card rounded-lg shadow-small p-4 border border-gray-200 hover:shadow-medium transition-shadow duration-300 ${className}`}
+    className={`bg-card border border-card-border rounded-2xl p-6 hover:shadow-md transition-all duration-300 ${className}`}
     {...props}
   >
     {children}

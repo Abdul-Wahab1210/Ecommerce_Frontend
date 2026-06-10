@@ -23,60 +23,54 @@ const EditProductModal = ({ product, isOpen, onClose, onUpdated }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="max-w-4xl w-full">
-      <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h2 className="text-xl font-bold text-foreground mb-4">Edit Product</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name and Description */}
-        <div className="flex flex-col gap-3">
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
-            placeholder="Name"
-          />
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
+          placeholder="Name"
+        />
 
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600 resize-none h-24"
-            placeholder="Description"
-          />
-        </div>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring resize-none h-24 transition-all duration-200"
+          placeholder="Description"
+        />
 
-        {/* Price and Stock in a row */}
-        <div className="md:flex gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <input
             name="price"
             type="number"
             value={formData.price}
             onChange={handleChange}
-            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
             placeholder="Price"
           />
-
           <input
             name="stock"
             type="number"
             value={formData.stock}
             onChange={handleChange}
-            className="w-1/2 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+            className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
             placeholder="Stock"
           />
         </div>
 
-        {/* Category */}
         <input
           name="category"
           value={formData.category}
           onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className="w-full px-4 py-2.5 rounded-xl bg-input border border-border text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
           placeholder="Category"
         />
 
-        <button className="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-900 transition">
+        <button className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary-hover shadow-sm transition-all duration-300">
           Save Changes
         </button>
       </form>
