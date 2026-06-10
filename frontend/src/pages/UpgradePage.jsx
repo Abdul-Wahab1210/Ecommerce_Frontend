@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Sparkles, TrendingUp, Package, Check } from "lucide-react";
 
 const benefits = [
@@ -27,9 +27,8 @@ export default function UpgradePage() {
     return <Navigate to="/" replace />;
   }
 
-  if (user.isSeller) {
-    navigate("/dashboard", { replace: true });
-    return null;
+  if (user.role === "seller") {
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleUpgrade = () => {
