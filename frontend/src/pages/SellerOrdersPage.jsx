@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
+import { Package, ShoppingBag } from "lucide-react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function SellerOrdersPage() {
   const { user, api, loadingUser } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [statusUpdates, setStatusUpdates] = useState({}); // store pending updates
+  const [statusUpdates, setStatusUpdates] = useState({});
+  const [saving, setSaving] = useState(null);
 
   useEffect(() => {
     if (!loadingUser && user && user.role === "seller") {
@@ -27,138 +30,140 @@ export default function SellerOrdersPage() {
     }));
   };
 
-  const handleSaveStatus = (orderId, productIndex) => {
+  const handleSaveStatus = async (orderId, productIndex) => {
     const key = `${orderId}_${productIndex}`;
     const newStatus = statusUpdates[key];
     if (!newStatus) return;
 
-    api
-      .patch(`/orders/${orderId}/seller`, { status: newStatus })
-      .then((res) => {
-        setOrders((prev) =>
-          prev.map((order) => {
-            if (order._id !== orderId) return order;
-            const updatedProducts = order.products.map((p, idx) =>
-              idx === productIndex ? { ...p, status: newStatus } : p,
-            );
-            return {
-              ...order,
-              products: updatedProducts,
-              orderStatus: res.data.orderStatus,
-            };
-          }),
-        );
-        setStatusUpdates((prev) => {
-          const copy = { ...prev };
-          delete copy[key];
-          return copy;
-        });
-      })
-      .catch((err) => console.error(err));
+    setSaving(key);
+    try {
+      const res = await api.patch(`/orders/${orderId}/seller`, { status: newStatus });
+      setOrders((prev) =>
+        prev.map((order) => {
+          if (order._id !== orderId) return order;
+          const updatedProducts = order.products.map((p, idx) =>
+            idx === productIndex ? { ...p, status: newStatus } : p,
+          );
+          return { ...order, products: updatedProducts, orderStatus: res.data.orderStatus };
+        }),
+      );
+      setStatusUpdates((prev) => {
+        const copy = { ...prev };
+        delete copy[key];
+        return copy;
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(null);
+    }
   };
 
-  if (loadingUser) return <p>Loading...</p>;
+  if (loadingUser) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-muted-foreground">Loading...</p>
+    </div>
+  );
   if (!user || user.role !== "seller") return <Navigate to="/" replace />;
 
+  const statusColor = (status) => {
+    switch (status) {
+      case "completed": return "bg-success-bg text-success";
+      case "cancelled": return "bg-danger-bg text-danger";
+      default: return "bg-warning-bg text-warning";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 pt-24 px-4">
+    <div className="min-h-screen pt-20 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Seller Orders</h1>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Seller Orders</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            Orders containing your products
+          </p>
+        </div>
 
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin h-8 w-8 rounded-full border-4 border-slate-600 border-t-transparent" />
-          </div>
+          <LoadingSpinner height="h-64" />
         ) : orders.length === 0 ? (
-          <p className="text-gray-600">No orders found.</p>
+          <div className="text-center py-20">
+            <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
+              <ShoppingBag size={32} className="text-muted-foreground/40" />
+            </div>
+            <p className="text-lg font-medium text-foreground">No orders found</p>
+            <p className="text-muted-foreground text-sm mt-1">
+              Orders will appear here when customers purchase your products
+            </p>
+          </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="bg-white rounded-xl shadow-sm border p-6"
+                className="bg-card border border-card-border rounded-2xl p-6 hover:shadow-sm transition-shadow duration-200"
               >
                 {/* Order Header */}
-                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Order ID</p>
-                    <p className="font-medium">{order._id}</p>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 mb-4 border-b border-card-border">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider">Order ID</p>
+                    <p className="text-sm font-mono text-foreground break-all">{order._id}</p>
                   </div>
-
-                  <div>
-                    <p className="text-sm text-gray-500">Buyer</p>
-                    <p className="font-medium">{order.buyer?.name || "N/A"}</p>
+                  <div className="shrink-0">
+                    <p className="text-xs text-muted-foreground">Buyer</p>
+                    <p className="text-sm font-medium text-foreground">{order.buyer?.name || "N/A"}</p>
                   </div>
-
-                  <div>
-                    <p className="text-sm text-gray-500">Order Status</p>
-                    <span className="inline-block px-3 py-1 rounded-full text-sm bg-slate-100 text-slate-700">
+                  <div className="shrink-0">
+                    <p className="text-xs text-muted-foreground mb-1">Status</p>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${statusColor(order.orderStatus)}`}>
                       {order.orderStatus}
                     </span>
                   </div>
                 </div>
 
                 {/* Products */}
-                <div className="divide-y">
+                <div className="divide-y divide-card-border">
                   {order.products.map((product, idx) => (
-                    <div
-                      key={idx}
-                      className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4"
-                    >
-                      {/* Product Info */}
+                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
                       <div className="flex gap-4 items-center">
                         <img
-                          src={
-                            product.product.images?.[0] || "/placeholder.png"
-                          }
+                          src={product.product.images?.[0] || "/placeholder.png"}
                           alt={product.product.name}
-                          className="h-28 w-28 rounded-lg object-cover border"
+                          className="h-16 w-16 rounded-xl object-cover border border-card-border shrink-0"
                         />
-
                         <div>
-                          <p className="font-semibold">
-                            {product.product.name}
-                          </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-semibold text-foreground">{product.product.name}</p>
+                          <p className="text-sm text-muted-foreground">
                             Quantity: {product.quantity}
                           </p>
-                          <p className="text-sm">
-                            Status:{" "}
-                            <span className="font-medium">
-                              {product.status}
-                            </span>
-                          </p>
+                          <span className={`inline-block mt-1 text-xs font-medium ${statusColor(product.status)}`}>
+                            {product.status}
+                          </span>
                         </div>
                       </div>
 
-                      {/* Status Action */}
                       {product.status === "pending" ? (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 shrink-0">
                           <select
-                            value={
-                              statusUpdates[`${order._id}_${idx}`] ||
-                              product.status
-                            }
-                            onChange={(e) =>
-                              handleSelectChange(order._id, idx, e.target.value)
-                            }
-                            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+                            value={statusUpdates[`${order._id}_${idx}`] || product.status}
+                            onChange={(e) => handleSelectChange(order._id, idx, e.target.value)}
+                            className="px-3 py-2 rounded-xl bg-input border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
                           >
                             <option value="pending">Pending</option>
                             <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
                           </select>
-
                           <button
                             onClick={() => handleSaveStatus(order._id, idx)}
-                            className="bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition"
+                            disabled={saving === `${order._id}_${idx}`}
+                            className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:bg-primary-hover disabled:opacity-50 transition-all duration-200"
                           >
-                            Save
+                            {saving === `${order._id}_${idx}` ? "Saving..." : "Save"}
                           </button>
                         </div>
                       ) : (
-                        <span className="text-gray-400 italic">
-                          Status locked
+                        <span className="text-sm text-muted-foreground italic shrink-0">
+                          Locked
                         </span>
                       )}
                     </div>
