@@ -1,26 +1,43 @@
 import { Link } from "react-router-dom";
 
 export default function NavbarSignedOut({ location, isMobile = false }) {
-  const links = [
-    { name: "Login", path: "/auth/login" },
-    { name: "Register", path: "/auth/register" },
-  ];
+  if (isMobile) {
+    return (
+      <>
+        <Link
+          to="/auth/login"
+          className="block px-4 py-2.5 rounded-lg text-navbar-text-muted hover:text-navbar-text hover:bg-secondary transition-all duration-200 font-medium"
+        >
+          Login
+        </Link>
+        <Link
+          to="/auth/register"
+          className="block px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary-hover transition-all duration-200 text-center"
+        >
+          Get Started
+        </Link>
+      </>
+    );
+  }
 
   return (
     <>
-      {links.map((link) => (
-        <Link
-          key={link.path}
-          to={link.path}
-          className={`px-3 py-2 rounded-md font-medium transition ${
-            location.pathname === link.path
-              ? "bg-slate-700 text-yellow-300"
-              : "text-slate-100 hover:bg-slate-700/50 hover:text-yellow-200"
-          }`}
-        >
-          {link.name}
-        </Link>
-      ))}
+      <Link
+        to="/auth/login"
+        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+          location.pathname === "/auth/login"
+            ? "bg-primary/10 text-primary"
+            : "text-navbar-text-muted hover:text-navbar-text hover:bg-secondary"
+        }`}
+      >
+        Login
+      </Link>
+      <Link
+        to="/auth/register"
+        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary-hover transition-all duration-200 shadow-sm hover:shadow-md"
+      >
+        Get Started
+      </Link>
     </>
   );
 }

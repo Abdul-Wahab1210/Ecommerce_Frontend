@@ -22,7 +22,7 @@ import UpgradePage from "./pages/UpgradePage";
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-bg text-text transition-colors duration-300">
+      <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
         <Navbar />
 
         <Routes>

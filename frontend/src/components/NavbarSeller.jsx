@@ -1,33 +1,73 @@
 import { Link } from "react-router-dom";
+import { LayoutDashboard, Package, ShoppingBag } from "lucide-react";
 
-export default function NavbarSeller({ location, logout, isMobile = false }) {
+export default function NavbarSeller({ location, logout, user, isMobile = false }) {
   const links = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "My Products", path: "/my-products" },
-    { name: "Orders", path: "/seller-orders" },
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "My Products", path: "/my-products", icon: Package },
+    { name: "Orders", path: "/seller-orders", icon: ShoppingBag },
   ];
+
+  if (isMobile) {
+    return (
+      <>
+        {links.map((link) => {
+          const Icon = link.icon;
+          const isActive = location.pathname === link.path;
+          return (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                isActive
+                  ? "bg-primary/10 text-primary"
+                  : "text-navbar-text-muted hover:text-navbar-text hover:bg-secondary"
+              }`}
+            >
+              <Icon size={16} />
+              {link.name}
+            </Link>
+          );
+        })}
+        <hr className="border-card-border my-2" />
+        <div className="px-4 py-2 text-sm text-navbar-text-muted">
+          Seller: <span className="font-medium text-navbar-text">{user.name}</span>
+        </div>
+        <button
+          onClick={logout}
+          className="w-full mt-1 px-4 py-2.5 rounded-lg text-danger hover:bg-danger-bg font-medium transition-all duration-200"
+        >
+          Sign Out
+        </button>
+      </>
+    );
+  }
 
   return (
     <>
-      {links.map((link) => (
-        <Link
-          key={link.path}
-          to={link.path}
-          className={`px-3 py-2 rounded-md font-medium transition ${
-            location.pathname === link.path
-              ? "bg-slate-700 text-yellow-300"
-              : "text-slate-100 hover:bg-slate-700/50 hover:text-yellow-200"
-          }`}
-        >
-          {link.name}
-        </Link>
-      ))}
-
+      {links.map((link) => {
+        const Icon = link.icon;
+        const isActive = location.pathname === link.path;
+        return (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
+              isActive
+                ? "bg-primary/10 text-primary shadow-sm"
+                : "text-navbar-text-muted hover:text-navbar-text hover:bg-secondary"
+            }`}
+          >
+            <Icon size={16} />
+            {link.name}
+          </Link>
+        );
+      })}
       <button
         onClick={logout}
-        className="px-3 py-2 rounded-md bg-slate-100 text-slate-800 font-semibold hover:bg-slate-200 transition"
+        className="px-4 py-2 rounded-lg border border-card-border text-navbar-text-muted hover:text-navbar-text hover:bg-secondary font-medium transition-all duration-200"
       >
-        Logout
+        Sign Out
       </button>
     </>
   );
