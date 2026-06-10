@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Sparkles, TrendingUp, Package, Check } from "lucide-react";
 
 const benefits = [
